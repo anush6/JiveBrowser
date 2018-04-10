@@ -26,21 +26,21 @@ public class BrowserWindow extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = -2709500178705880563L;
-	private final JTabbedPane pane = new JTabbedPane();
-    public static int tabCount = 0;
+	private final JTabbedPane pane = new JTabbedPane();// Tabbed view in browser
+    public static int tabCount = 0; 
     
     // Sets up a BrowserWindow with a given window title. Used in RunBrowser to start first browser window. 
     public BrowserWindow(String title) {
     	super(title);
-    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    	
-    	initMenuBar();
+    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // triggered with close button --- exit the application  	
+    	initMenuBar(); 
     	addTab(0);
     }
     
     // initialize () is called in RunBrowser after creating a BrowserWindow. 
     // Sets up Swing parameters to display the browser window.
     public void initialize() {
-        pane.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
+        pane.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT); //Behaviour of tabs
         setSize(new Dimension(1024, 768));
         setLocationRelativeTo(null);
         
@@ -70,7 +70,7 @@ public class BrowserWindow extends JFrame {
         pane.setSelectedIndex(i);
     }
     
-    // Initializes a tab wit close button and title being set using TabButtonComponent Class
+    // Initializes a tab with close button and title being set using TabButtonComponent Class
     // Refer to Swing JTabbedPane examples on official JavaDocs page.
     private void initTabComponent(int i) {
         pane.setTabComponentAt(i,
