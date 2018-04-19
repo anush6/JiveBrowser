@@ -4,7 +4,7 @@ package com.jivebrowser.components;
 /***
  *  File: BrowserWindow.java
  *  Authors: Anisha Mascarenhas and Arjun Rao
- *  
+ *  few features added by Anush Kumar V
  *  Description:
  *  BrowserWindow is the class that handles functionality of one entire window of the browser
  *  One BrowserWindow contains a JTabbedPane for handling several tabs that can make up that window
