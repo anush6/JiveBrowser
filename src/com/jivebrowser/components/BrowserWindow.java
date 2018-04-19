@@ -19,13 +19,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import com.jivebrowser.utils.*;
 import com.jivebrowser.controllers.*;
-
-public class BrowserWindow extends JFrame {
-
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2709500178705880563L;
+public class BrowserWindow extends JFrame{
+    private static final long serialVersionUID = -2709500178705880563L;
 	private final JTabbedPane pane = new JTabbedPane();// Tabbed view in browser
     public static int tabCount = 0; 
     
@@ -68,6 +63,20 @@ public class BrowserWindow extends JFrame {
         pane.add(title,historyTab);
         initTabComponent(i);
         pane.setSelectedIndex(i);
+    }
+    private void addBookmarkstab(int i){
+        try{
+            String html = BookmarkController.getInstance().showBookmarks();
+            String title = "Bookmarks";
+            BrowserTab bookmarkTab = new BrowserTab(pane,i);
+            bookmarkTab.setHTML(html);
+            pane.add(title,bookmarkTab);
+            initTabComponent(i);
+            pane.setSelectedIndex(i);
+        }
+        catch(Exception e){
+            System.out.println("Unable to load bookmark-browserwindow "+e);
+        } 
     }
     
     // Initializes a tab with close button and title being set using TabButtonComponent Class
@@ -138,8 +147,18 @@ public class BrowserWindow extends JFrame {
             	addHistoryTab(tabCount);
             }
         });
-       
+        //adding bookmark option
+        JMenuItem BookmarkMenuItem = new JMenuItem("Bookmarks");
+        BookmarkMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {            	            
+            	tabCount++;
+            	addBookmarkstab(tabCount);
+            }
+        });
+        
+        
         viewMenu.add(historyMenuItem);
+        viewMenu.add(BookmarkMenuItem);
         viewMenu.setMnemonic(KeyEvent.VK_V);
     	
         // Code for View Menu Ends Here
@@ -169,5 +188,5 @@ public class BrowserWindow extends JFrame {
         menuBar.add(helpMenu);
         setJMenuBar(menuBar);
     }  
-
+    
 }
