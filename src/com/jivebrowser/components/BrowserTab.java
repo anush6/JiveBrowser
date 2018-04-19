@@ -4,7 +4,7 @@ package com.jivebrowser.components;
 /***
  *  File: BrowserTab.java
  *  Authors: Anisha Mascarenhas and Arjun Rao
- *  
+ *  few features added by Anush Kumar V
  *  Description:
  *  BrowserTab is the class that handles functionality of one tab of the browser
  *  One browser tab contains its own URL bar (Called locationTextField) and navigation buttons
@@ -39,14 +39,9 @@ import java.util.*;
 
 
 public class BrowserTab extends JPanel{
-
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8970636815130099199L;
+    private static final long serialVersionUID = -8970636815130099199L;
 	// These are the buttons for iterating through the navigation-history list.
-    private JButton backButton, forwardButton,goButton;
+    private JButton backButton, forwardButton,goButton, bookmark;
     // Browser is a java wrapper around Chromium provided by JxBrowser.
     private Browser browser = new Browser();
     // TextField to store URL
@@ -58,11 +53,7 @@ public class BrowserTab extends JPanel{
     
     //Uses URL below to perform google search on pages that result in 404 errors.
     private static final String GOOGLE_SEARCH = "https://www.google.com/search?q=";
-     
-    
-     
-    // Constructor for a Browser Tab.
-    public BrowserTab(final JTabbedPane pane,final int tabIndex) {
+     public BrowserTab(final JTabbedPane pane,final int tabIndex) {
     	
     	this.setLayout(new BorderLayout());    	
         
@@ -126,6 +117,15 @@ public class BrowserTab extends JPanel{
             }
         });
         buttonPanel.add(goButton);
+        //adding bookmark button
+        bookmark = new JButton("bookmark");
+        bookmark.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                addBookmark();
+            }
+        });
+        buttonPanel.add(bookmark);
+        //end of history button
         add(buttonPanel, BorderLayout.NORTH);
     }
     
@@ -133,6 +133,24 @@ public class BrowserTab extends JPanel{
     public void setHTML(String html)
     {
     	browser.loadHTML(html);
+    }
+    private void addBookmark(){
+        
+        BookmarkController bmark_obj = BookmarkController.getInstance();
+        String url = browser.getURL();
+        if(!url.equals("about:blank")){
+            try{
+                bmark_obj.addBookmark(url, new Date());
+                JOptionPane.showMessageDialog(pane, "Bookmark added","Bookmark info",JOptionPane.INFORMATION_MESSAGE);
+            }
+            catch(Exception e){
+                System.out.println("From Bookmark "+e);
+            }
+        }
+//        if(result == 0)
+//            JOptionPane.showMessageDialog(pane, "Bookmark already exits","Bookmark info",JOptionPane.INFORMATION_MESSAGE);
+//        else
+//            JOptionPane.showMessageDialog(pane, "Bookmark added","Bookmark info",JOptionPane.INFORMATION_MESSAGE);
     }
     
     // Load and show the page specified in the location text field.
@@ -193,7 +211,8 @@ public class BrowserTab extends JPanel{
       	});
     	
     }
-     
+    
+    
     
     
 }
